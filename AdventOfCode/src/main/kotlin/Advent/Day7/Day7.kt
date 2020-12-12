@@ -7,11 +7,11 @@ val bags = mutableMapOf<String, List<String>>()
 
 
 fun main() {
-    readInputFile("src/main/resources/Advent/Day7Input.txt")
+    readInputFile("src/main/resources/Advent/Day7/Day7Input.txt")
     fillBags()
     println(bags)
-    //println(firstStep()) //208
-    println(secondStep())
+    println(firstStep()) //208
+    println(secondStep()) //1664
 }
  // region FirstStep
 fun firstStep():Int{
@@ -19,16 +19,16 @@ fun firstStep():Int{
 }
 
 fun bagBacktracking(): MutableMap<String,Int>{
-    var bagSolution = mutableListOf<String>()
-    var finalSol = mutableMapOf<String,Int>()
-    var discartedKeys = mutableListOf<String>()
+    val bagSolution = mutableListOf<String>()
+    val finalSol = mutableMapOf<String,Int>()
+    val usedKeys = mutableListOf<String>()
     bagSolution.add("shiny gold")
     do {
         val bagToSearch = bagSolution[0]
-        if(!discartedKeys.contains(bagToSearch)){
+        if(!usedKeys.contains(bagToSearch)){
             val iteSolution = searchSolution(bagToSearch)
             bagSolution.addAll(iteSolution.keys)
-            discartedKeys.add(bagToSearch)
+            usedKeys.add(bagToSearch)
             finalSol[bagToSearch] = iteSolution.values.sum()
         }
         bagSolution.remove(bagToSearch)
@@ -37,7 +37,7 @@ fun bagBacktracking(): MutableMap<String,Int>{
 }
 
 private fun searchSolution(sol: String): MutableMap<String,Int>{
-    var bagSolution = mutableMapOf<String,Int>()
+    val bagSolution = mutableMapOf<String,Int>()
     bags.forEach { bag ->
         bag.value.forEach { bagValue ->
             if (bagValue.contains(sol))
@@ -59,15 +59,15 @@ fun sumAllBags(bags: List<String>):Int{
 // endregion
 
 fun secondStep():Int{
-    return Search()
+    return search()
 }
 
-fun Search():Int{
+fun search():Int{
     val searchNode = "shiny gold"
-    return SearchNodes(searchNode)-1
+    return searchNodes(searchNode)-1
 }
 
-private fun SearchNodes(searchNode: String):Int {
+private fun searchNodes(searchNode: String):Int {
     bags.forEach { bag ->
         if (bag.key == searchNode ) {
             return if (bag.value.any()) {
@@ -76,7 +76,7 @@ private fun SearchNodes(searchNode: String):Int {
                     val searchInnerNode = bagValue.trim().substringAfter(" ")
                         .replace("bags","").replace("bag","").trim()
                     res += (bagValue.trim().substringBefore(" ").toInt() *
-                            SearchNodes(searchInnerNode))
+                            searchNodes(searchInnerNode))
                 }
                 res
             } else 1

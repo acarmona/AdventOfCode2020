@@ -6,11 +6,16 @@ val allLines = arrayListOf<String>()
 val seats = mutableMapOf<Int,Int>()
 fun main() {
 
-    readInputFile("src/main/resources/Advent/Day5Input.txt")
-    val max = firstStep()
-    for (c in 0 .. max) seats[c]=0
-    println(secondStep())
+    readInputFile("src/main/resources/Advent/Day5/Day5Input.txt")
+    val max = firstStep() //996
+    println(max)
+    clearSeats(max)
+    println(secondStep()) //671
 
+}
+
+private fun clearSeats(max: Int) {
+    for (c in 0..max) seats[c] = 0
 }
 
 fun secondStep():Int{
@@ -20,10 +25,13 @@ fun secondStep():Int{
         val seat = (searchRow(rows, 0, 127) * 8) + searchCol(cols, 0, 7)
         seats[seat] = 1
     }
-
+    var solution = 0
     for (f in 0 .. seats.count())
-        if(seats[f] == 0) println("number "+ f + " is " + seats[f])
-    return 0
+        if(seats[f] == 0
+            && (f<seats.count() && seats[f+1]!=0)
+            && (f>0 && seats[f-1]!=0 ))
+            solution= f
+    return solution
 }
 
 fun firstStep():Int{

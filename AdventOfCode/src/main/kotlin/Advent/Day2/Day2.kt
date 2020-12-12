@@ -2,12 +2,10 @@ package Advent.Day2
 
 import java.io.File
 
-
-
 fun main() {
 
-    println(firstStep("src/main/resources/Advent/Day2Input.txt"))
-    println(secondStep("src/main/resources/Advent/Day2Input.txt"))
+    println(firstStep("src/main/resources/Advent/Day2/Day2Input.txt")) //383
+    println(secondStep("src/main/resources/Advent/Day2/Day2Input.txt")) //272
 }
 
 fun firstStep(fileName: String):Int

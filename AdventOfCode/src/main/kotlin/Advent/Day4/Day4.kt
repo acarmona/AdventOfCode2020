@@ -6,10 +6,10 @@ val allLines = arrayListOf<String>()
 val passports =  arrayListOf<MutableMap<String,String>>()
 fun main() {
 
-    readInputFile("src/main/resources/Advent/Day4Input.txt")
+    readInputFile("src/main/resources/Advent/Day4/Day4Input.txt")
     setMap()
-    println(firstStep())
-    println(secondStep())
+    println(firstStep()) //264
+    println(secondStep()) //224
 }
 
 fun firstStep():Long{
@@ -41,19 +41,16 @@ fun secondStep():Long{
     var allFieldsOk = false
     passports.forEach { pass ->
         if(pass.containsKey("byr")){
-            var byr= pass["byr"]?.toInt()
+            val byr= pass["byr"]?.toInt()
             allFieldsOk = (byr != null && pass["byr"]?.count()==4 && byr in 1920 .. 2002)
-            if(!allFieldsOk) println("fail byr")
         }
         if(allFieldsOk && pass.containsKey("iyr")){
-            var iyr = pass["iyr"]?.toInt()
+            val iyr = pass["iyr"]?.toInt()
             allFieldsOk = (iyr != null && pass["iyr"]?.count()==4 && iyr in 2010 .. 2020)
-            if(!allFieldsOk) println("fail iyr")
         }
         if(allFieldsOk && pass.containsKey("eyr")){
-            var eyr = pass["eyr"]?.toInt()
+            val eyr = pass["eyr"]?.toInt()
             allFieldsOk = (eyr != null && pass["eyr"]?.count()==4 && eyr in 2020 .. 2030)
-            if(!allFieldsOk) println("fail eyr")
         }
         if(allFieldsOk && pass.containsKey("hgt")){
             val unit = pass["hgt"]?.takeLast(2)
@@ -62,13 +59,11 @@ fun secondStep():Long{
                 "in" -> (pass["hgt"]?.substringBefore("in")?.toInt() in 59..76)
                 else -> false
             }
-            if(!allFieldsOk) println("fail hgt")
         }
         if(allFieldsOk && pass.containsKey("hcl")){
             allFieldsOk=(pass["hcl"]?.get(0)?.equals('#') == true)
             pass["hcl"]?.trim()?.substringAfter('#')?.forEach { ch ->
                 if (allFieldsOk && !(ch in '0' .. '9' || ch in 'a' .. 'f')) allFieldsOk = false}
-            if(!allFieldsOk) println("fail hcl")
         }
         if(allFieldsOk && pass.containsKey("ecl")){
             //amb blu brn gry grn hzl oth
@@ -76,20 +71,14 @@ fun secondStep():Long{
                 !pass["ecl"].equals("grn") && !pass["ecl"].equals("hzl") && !pass["ecl"].equals("oth")){
                 allFieldsOk = false
             }
-            if(!allFieldsOk) println("fail ecl")
         }
         if(allFieldsOk && pass.containsKey("pid")){
             if(pass["pid"]?.trim()?.count() != 9) allFieldsOk = false
-            if(!allFieldsOk) println("fail pid")
         }
         if(allFieldsOk && !(pass.containsKey("byr") && pass.containsKey("iyr") && pass.containsKey("eyr") && pass.containsKey("hgt") &&
             pass.containsKey("hcl") && pass.containsKey("ecl") && pass.containsKey("pid"))) allFieldsOk = false
 
         if (allFieldsOk) passOk+=1
-        if(!allFieldsOk){
-            println(pass)
-            println("*********")
-        }
     }
     return passOk.toLong()
 }
@@ -101,7 +90,7 @@ fun setMap()
         if(it.trim().isEmpty())
         {
             passports.add(passport)
-            passport = mutableMapOf<String, String>()
+            passport = mutableMapOf()
         }
         else
             it.split(" ").forEach{
@@ -109,7 +98,7 @@ fun setMap()
             }
     }
     passports.add(passport)
-    passport = mutableMapOf<String, String>()
+    passport = mutableMapOf()
 }
 
 fun readInputFile(fileName: String)

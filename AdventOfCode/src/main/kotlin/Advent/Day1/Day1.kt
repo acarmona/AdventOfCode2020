@@ -4,11 +4,10 @@ import java.io.File
 
 
 val list = arrayListOf<Int>()
-val finalList  = arrayListOf<Int>()
 fun main() {
-    readInputFile("src/main/resources/Advent/Day1Input.txt")
+    readInputFile("src/main/resources/Advent/Day1/Day1Input.txt")
     println(firstStep()) //1020084
-    println(secondStep())
+    println(secondStep()) //295086480
 }
 
 fun firstStep():Int

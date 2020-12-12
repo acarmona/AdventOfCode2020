@@ -6,11 +6,9 @@ import java.io.File
 val trees = arrayListOf<String>()
 fun main() {
 
-    readInputFile("src/main/resources/Advent/Day3Input.txt")
-    //First 167
-    println(firstStep(3, false))
-    // 736527114
-    println(secondStep())
+    readInputFile("src/main/resources/Advent/Day3/Day3Input.txt")
+    println(firstStep(3, false)) //167
+    println(secondStep()) // 736527114
 }
 
 fun secondStep():Long{

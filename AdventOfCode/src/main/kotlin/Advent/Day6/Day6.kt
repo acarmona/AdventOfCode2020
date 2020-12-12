@@ -7,12 +7,11 @@ val allAnswers =  arrayListOf<MutableList<Char>>()
 val allAnswersStep2 =  arrayListOf<MutableList<String>>()
 
 fun main() {
-    readInputFile("src/main/resources/Advent/Day6Input.txt")
+    readInputFile("src/main/resources/Advent/Day6/Day6Input.txt")
     fillAnswersList()
-    println(firstStep())
+    println(firstStep()) //6291
     fillAnswersListForStep2()
-    println(allAnswersStep2)
-    println(secondStep())
+    println(secondStep()) //3052
 }
 
 fun firstStep():Int{
@@ -24,7 +23,7 @@ fun firstStep():Int{
 fun secondStep():Int{
     var result = 0
     allAnswersStep2.forEach { group ->
-        var sameAnswer = mutableMapOf<Char,Int>()
+        val sameAnswer = mutableMapOf<Char,Int>()
         group.forEach{ans ->
 
             ans.forEach { ch ->
