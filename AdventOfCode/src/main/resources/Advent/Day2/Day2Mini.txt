@@ -1,0 +1,8 @@
+1-3 a: abcde
+1-3 b: cdefg
+2-9 c: ccccccccb
+5-7 g: ggggzgg
+13-17 q: qqqqqqqqqqqqqqqqdqqq
+11-12 w: wwwwwwwwwwwww
+9-10 q: qllqvqqqqsqqqqqnz
+7-17 j: jjjjjhjjjjjjjjjjjjjj
