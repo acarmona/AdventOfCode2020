@@ -10,7 +10,7 @@ fun main() {
     val preambleSize = 25
     val weaknessNumber =  firstStep(preambleSize) //507622668
     println(weaknessNumber)
-    println(secondStep(preambleSize-1,weaknessNumber))
+    println(secondStep(preambleSize-1,weaknessNumber)) //76688505
 }
 
 fun firstStep(preambleSize: Int):Long{
