@@ -9,59 +9,49 @@ var joltAdapterAvailable = mutableListOf<Long>()
 
 fun main() {
 
-    readInputFile("src/main/resources/Advent/Day10/Day10Tiny.txt")
+    readInputFile("src/main/resources/Advent/Day10/Day10Input.txt")
     println(firstStep()) //2048
     println(secondStep())
-    println(joltArrangements)
+    //println(joltArrangements)
 }
 
 fun secondStep():Int{
     joltAdapterAvailable = setJoltInitialList()
     for (index in 0 .. joltAdapterAvailable.lastIndex)
     {
-        joltArrangements.add(searchSolution(index, joltAdapterAvailable, true))
+        var joltCandidate =  mutableListOf<Long>()
+        for (i in 0 .. index) joltCandidate.add(joltAdapterAvailable[i])
+        searchSolution(index, joltCandidate, true)
     }
-    //joltArrangements =  joltArrangements.distinct().toMutableList()
+    joltArrangements =  joltArrangements.distinct().toMutableList()
     return joltArrangements.count()
 }
 
-fun searchSolution(index: Int, joltAdapterAvailable: MutableList<Long>, firstAttempt: Boolean): MutableList<Long> {
-    var innerJoltList = joltAdapterAvailable.toMutableList()
-    if(index>joltAdapterAvailable.lastIndex) return joltAdapterAvailable
-    val window = setJoltWindow(index,innerJoltList)
-    if(canBeSolution1(window,1, firstAttempt))
-        return (searchSolution(index+1,innerJoltList,false))
-    if(canBeSolution2(window,2, firstAttempt)) {
-        if(index+1 < innerJoltList.lastIndex) innerJoltList.removeAt(index+1)
-        return (searchSolution(index + 2, innerJoltList, false))
+fun searchSolution(index: Int, joltCandidate: MutableList<Long>, firstAttempt: Boolean) {
+    var secIndex = -1
+    if(index>=joltAdapterAvailable.lastIndex) joltArrangements.add(joltCandidate)
+    val window = setJoltWindow(index,joltAdapterAvailable)
+    if (!firstAttempt && !canEvaluate(window, 0)) {}
+    else {
+        if (window[0] + 3 == window[3]) {
+            secIndex = 3
+            val cand3 = joltCandidate.toMutableList()
+            cand3.add(window[secIndex])
+            searchSolution(index + secIndex, cand3, false)
+        }
+        if (window[0] + 2 == window[2] || window[0] + 3 == window[2]) {
+            secIndex = 2
+            val cand2 = joltCandidate.toMutableList()
+            cand2.add(window[secIndex])
+            searchSolution(index + secIndex, cand2, false)
+        }
+        if ((window[0] + 1) == window[1] || window[0] + 2 == window[1] || window[0] + 3 == window[1]) {
+            secIndex = 1
+            val cand1 = joltCandidate.toMutableList()
+            cand1.add(window[secIndex])
+            searchSolution(index + secIndex, cand1, false)
+        }
     }
-    if(canBeSolution3(window,3,firstAttempt)) {
-        if(index+1 < innerJoltList.lastIndex) innerJoltList.removeAt(index+1)
-        if(index+2 < innerJoltList.lastIndex) innerJoltList.removeAt(index+2)
-        return (searchSolution(index + 3, innerJoltList, false))
-    }
-    return joltAdapterAvailable
-}
-
-fun canBeSolution1(window: MutableList<Long>, plus: Int, firstAttempt: Boolean): Boolean {
-    if (!firstAttempt && !canEvaluate(window, 0)) return false
-    val reference = window[0] + plus
-    if (canEvaluate(window,1) && reference == window[1]) return true
-    return false
-}
-
-fun canBeSolution2(window: MutableList<Long>, plus: Int, firstAttempt: Boolean): Boolean {
-    if (!firstAttempt && !canEvaluate(window, 0)) return false
-    val reference = window[0] + plus
-    if (canEvaluate(window,2) && (reference == window[1] || reference == window[2])) return true
-    return false
-}
-
-fun canBeSolution3(window: MutableList<Long>, plus: Int, firstAttempt: Boolean): Boolean {
-    if (!firstAttempt && !canEvaluate(window, 0)) return false
-    val reference = window[0] + plus
-    if (canEvaluate(window,3) && (reference == window[1] || reference == window[2] || reference == window[3])) return true
-    return false
 }
 
 private fun canEvaluate(window: MutableList<Long>, index: Int): Boolean {
