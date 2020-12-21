@@ -10,6 +10,7 @@ var joltArray = mutableListOf<Long>()
 fun main() {
 
     readInputFile("src/main/resources/Advent/Day10/Day10Input.txt")
+    println(firstStep()) //2048
     println(secondStep()) //1322306994176
 }
 
